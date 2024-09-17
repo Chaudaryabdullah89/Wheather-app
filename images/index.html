@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=q, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+    <title>Wether App</title>
+</head>
+<body>
+    <div class="card">
+        <form action="">
+        <div class="search">
+            <input type="text" placeholder="Enter City Name" spellcheck="false">
+            <button><img src="./images/search.png" alt=""></button>
+        </form>
+        </div>
+        <div class="weather" style="display: none;">
+            <!-- <img src="images/rain.png" alt="rain" class="weather-icon"> -->
+             <p class="weather-icon"></p>
+            <h1 class="temp">22°c</h1>
+            <h2 class="city">New York</h2>
+            <div class="details">
+                <div class="col">
+                    <img src="images/humidity.png" alt="huminity">
+                    <div>
+                        <p class="humidity">50%</p>
+                        <p>humidity</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <img src="images/wind.png" alt="huminity">
+                    <div>
+                        <p class="wind">15km/h</p>
+                        <p>Wind Speed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   <script>
+    const apikey = 'f98bfba241a5ad32d8e6a0cc7b36767d'
+    const apiurl = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q='
+let temperature = document.querySelector('.temp')
+let cityname = document.querySelector('.city')
+let humidity = document.querySelector('.humidity')
+let wind = document.querySelector('.wind')
+let searchbox =document.querySelector('input')
+let searchbtn =document.querySelector('button')
+let form = document.querySelector('form')
+let changeicons = document.querySelector('.weather-icon')
+let weatherElement = document.getElementsByClassName('weather')[0];
+
+
+    async function checkweather(city){
+        const response = await fetch(apiurl + city + `&appid=${apikey}`);
+        let data = await response.json();
+        console.log(data);
+
+       temperature.innerHTML = Math.floor(data.main.temp) + '°C';
+     cityname.innerHTML = data.name;
+      humidity.innerHTML = data.main.humidity + '%'
+      wind.innerHTML =  Math.round(data.wind.speed) + 'km/h'
+      
+    //   if(data.weather[0].main == "clear"){
+    //     changeicons.src = 'images/clear.png';   
+    //     console.log('clear');
+        
+    //     }else if(data.weather[0].main == 'clouds'){
+           
+    //     }
+    if (weatherElement) {
+  weatherElement.style.display = 'block';
+}
+    }
+
+
+form.addEventListener('click', function(e){
+    e.preventDefault()
+    checkweather(searchbox.value)
+
+}
+)
+
+
+
+
+   </script>
+</body>
+</html>
